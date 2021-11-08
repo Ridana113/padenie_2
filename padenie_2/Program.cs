@@ -14,7 +14,7 @@ namespace padenie_2
             static void Main(string[] args)
         {
                 Console.Write("Данные значения: ");
-                Console.WriteLine($"\n Maccа тела m= {m}г  Плотность воздуха p= {p}кг/м^3  Площадь поперечного сечения S= {S}м^2");
+                Console.WriteLine($"\n Maccа тела m= {m}кг  Плотность воздуха p= {p}кг/м^3  Площадь поперечного сечения S= {S}м^2");
                 Console.WriteLine($" Коэффициент лобового аэродинамического сопротивления Cx= {Cx}  Ускорение свободного падения g= {G}м/с^2");
                 int Hcycleid = 1; //нужно для проверки на положительное число
                 bool isCorrect = false; //нужно для проверки на ввод буквы
@@ -37,8 +37,8 @@ namespace padenie_2
                         double.TryParse(Console.ReadLine(), out h_first);
                     }
                 }
-                m = 10*Math.Pow(16, (1.0 / 3.0));
-                dt = 0.01;
+                m = 0.01*Math.Pow(16, (1.0 / 3.0));// перевод в кг6
+                dt = 0.1;
                 V0 = 0;
                 h0 = h_first;
                 Console.Write("Все необходимые данные записаны");
@@ -47,8 +47,8 @@ namespace padenie_2
                 //g = (1 - a) / (1 + a);
                     Console.WriteLine($"{t}  {dt}  {h}  {V}  {a}");
                     a = ((m * G) - ((p * Math.Pow(V0, 2) * S * Cx) / 2)) / m;
-                    V = V0 + (a * dt);
-                    h = h0 - (V0 * dt) - ((a * dt * dt) / 2);
+                    V = (-1 + Math.Pow((1 + 4 *p * S * Cx / (2 * m) * dt * (V0 + G * dt)), 0.5)) / (p * S * Cx / (2 * m) * dt);//через дискриминант?
+                h = h0 - (V0 * dt) - ((a * dt * dt) / 2);
                     t = t + dt;
                     //dt = 2 *m/ (p * V * S * Cx);// пришлось закоментировать, ибо решение сбоит
                     h0 = h;
